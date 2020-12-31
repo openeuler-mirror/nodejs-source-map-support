@@ -3,7 +3,7 @@
 %global enable_tests 1
 Name:                nodejs-source-map-support
 Version:             0.4.18
-Release:             1
+Release:             2
 Summary:             Fixes stack traces for files with source maps
 License:             MIT
 URL:                 https://github.com/evanw/node-source-map-support
@@ -22,6 +22,7 @@ Fixes stack traces for files with source maps
 %autosetup -n package
 cp -p %{SOURCE1} .
 %nodejs_fixdep source-map
+sed -i "s/'SyntaxError: Unexpected token )'/\/SyntaxError: Unexpected token '?\\\)'?\//g" ./test.js
 
 %build
 
@@ -47,5 +48,8 @@ NODE_ENV=test %{_bindir}/mocha -R spec
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Dec 29 2020 Ge Wang <wangge20@huawei.com> - 0.4.18-2
+- Fix compile failure due to nodejs update to 10.21.0
+
 * Wed Aug 12 2020 zhanghua <zhanghua40@huawei.com> - 0.4.18-1
 - package init
